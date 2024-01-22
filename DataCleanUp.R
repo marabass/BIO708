@@ -78,27 +78,27 @@ names(size_data)
 #wing area 
 
 print(size_data
-      %>% group_by(species_full, condition)
+      %>% group_by(species_full, condition, sex)
       %>% summarise(m_wing_area_sq = mean(wing_area_mm_sq), 
                     m_wing_log_area_mm_sq = mean(wing_log_area_mm_sq), 
                     m_wing_sqroot_area_mm_sq = mean(wing_sqroot_area_mm_sq), 
                     m_wing_log_sqroot_area_mm_sq = mean(wing_log_sqroot_area_mm_sq)), n = 5)
 #tibia length and width 
 print(size_data
-      %>%group_by(species_full, condition)
+      %>%group_by(species_full, condition, sex)
       %>%summarise(mean_leg_tibL = mean(leg_tibL), mean_leg_tibW = mean(leg_tibW),
                    mean_leg_log_tibL = mean(leg_log_tibL), mean_leg_log_tibW = mean(leg_log_tibW)) 
       )
 
 #tarsus length 
 print (size_data
-       %>%group_by(species_full, condition)
+       %>%group_by(species_full, condition, sex)
        %>%summarise(mean_leg_tar1L = mean(leg_tar1L),
                     mean_leg_log_tar1L = mean(leg_log_tar1L)))
 
 #thorax length thorax_length_mm
 print(size_data
-      %>%group_by(species_full, condition)
+      %>%group_by(species_full, condition,  sex)
       %>%summarise(mean_thorax_length_mm = mean(thorax_length_mm),
                    mean_thorax_log_length_mm = mean(thorax_log_length_mm)))
 
