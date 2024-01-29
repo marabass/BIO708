@@ -77,33 +77,34 @@ names(size_data)
 
 #wing area 
 
-print(size_data
-      %>% group_by(species_full, condition, sex)
+Wing_size_mean <- (size_data
+      %>% group_by(species_full, condition, sex, observationsNum)
       %>% summarise(m_wing_area_sq = mean(wing_area_mm_sq), 
                     m_wing_log_area_mm_sq = mean(wing_log_area_mm_sq), 
                     m_wing_sqroot_area_mm_sq = mean(wing_sqroot_area_mm_sq), 
-                    m_wing_log_sqroot_area_mm_sq = mean(wing_log_sqroot_area_mm_sq)), n = 5)
+                    m_wing_log_sqroot_area_mm_sq = mean(wing_log_sqroot_area_mm_sq)))
+
 #tibia length and width 
-print(size_data
+TibiaMean <- (size_data
       %>%group_by(species_full, condition, sex)
       %>%summarise(mean_leg_tibL = mean(leg_tibL), mean_leg_tibW = mean(leg_tibW),
-                   mean_leg_log_tibL = mean(leg_log_tibL), mean_leg_log_tibW = mean(leg_log_tibW)) 
-      )
+                   mean_leg_log_tibL = mean(leg_log_tibL), mean_leg_log_tibW = mean(leg_log_tibW)))
+
 
 #tarsus length 
-print (size_data
+TarsusMean <- (size_data
        %>%group_by(species_full, condition, sex)
        %>%summarise(mean_leg_tar1L = mean(leg_tar1L),
                     mean_leg_log_tar1L = mean(leg_log_tar1L)))
 
 #thorax length thorax_length_mm
-print(size_data
+ThoraxMean <- (size_data
       %>%group_by(species_full, condition,  sex)
       %>%summarise(mean_thorax_length_mm = mean(thorax_length_mm),
                    mean_thorax_log_length_mm = mean(thorax_log_length_mm)))
 
 #save the clean data set as an RDS file 
-saveRDS(size_data, file = "MP_SpeciesStarvation_Cleaned_MA.rds")
+saveRDS(size_data, file = "SpeciesStarvation_Cleaned_MA.rds")
 
 
 
