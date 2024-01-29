@@ -1,5 +1,0 @@
-**BMB**: the questions in your `README.md` generally seem fine. As you will hear from us frequently, you need to be careful framing biological questions in terms of "is there a correlation?" or "is SSD condition-dependent?", because the answer for biological questions is that there is always **some** correlation; "non-significant" doesn't mean "there is no correlation".  Better to ask whether there is *biologically relevant* condition dependence, or ask directional questions (e.g. male- vs female-biased SSD).
-
-**BMB**: now that you have set things up you probably want to clean up your git repository by *deleting junk*, i.e. the files `QMEE` and `testRscript.R` ... (you can also delete these comments
-
-mark: 2 (i.e., "this is fine")

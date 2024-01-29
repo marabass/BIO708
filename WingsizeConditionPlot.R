@@ -14,3 +14,7 @@ wing_size_data_condition <- (Size_dataClean
 ggplot(wing_size_data_condition, mapping = aes(x = condition, y = mean_wing_size)) +
   geom_boxplot(outlier.shape = NA) + 
   geom_jitter(alpha = 0.3, aes(colour = species_full))
+
+## JD: Nice work and all runs smoothly
+## Can you think of any ideas to make this plot more informative?
+## Grade: 2

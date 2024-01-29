@@ -18,6 +18,8 @@ names(size_data)
 sum(is.na(size_data))
 
 ##converting all character vectors and 'cohort' column to factors
+## JD: Worth finding more efficient code for this part
+## We had talked about mutate_if, but I think BB has a better method
 size_data <- (size_data
               %>% mutate(species_full=as.factor(species_full), 
                          species_strain=as.factor(species_strain), 
@@ -30,12 +32,14 @@ summary(size_data)
 #figuring out the difference between cohort and cohort_num 
 head(select(size_data, cohort, cohort_num))
 tail(select(size_data, cohort, cohort_num)) #cohort and cohort_num are identical. Cohort_num should be removed from the data frame.              
+## JD: YOu can use identical() or all.equal() to confirm something like ths
 
 #removing cohort_num from the data frame 
 size_data <- (size_data
               %>% select(-cohort_num))
 names(size_data)
 
+## JD is Num_Species really a good name for this variable?
 #counting number of observations per species. Looking for species with few observations. 
 species_count <- (size_data
       %>% count(species_full, name="Num_Species")
@@ -46,6 +50,9 @@ ggplot(data = species_count, aes(x=species_full, y =Num_Species)) +
   geom_bar(stat="identity")+
   theme(axis.text.x = element_text(angle = 90)) +
   geom_hline(yintercept=species_mean,colour="red")
+
+## JD: Would the plot be easier to read with coord_flip()
+## Is there a better way to order the species, instead of alphabetically?
 
 #the number of observations for D_orena is much smaller relative to the other species in the data set
 #Because I am interested in comparing observations between species, I think including a species with very few observations would make for non-meaningful comparisons
@@ -105,8 +112,4 @@ ThoraxMean <- (size_data
 
 #save the clean data set as an RDS file 
 saveRDS(size_data, file = "SpeciesStarvation_Cleaned_MA.rds")
-
-
-
-
 
