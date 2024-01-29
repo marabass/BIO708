@@ -1,16 +1,15 @@
 #This script should be run from the main QMEE directory 
+#This script uses a data set: "SpeciesStarvation_Cleaned_MA.rds" located in the main QMEE directory
 
 #load packages
 library(tidyverse)
 
-#Read in the 'clean' data set
+#Read in the 'clean' data set 
 Size_data <- readRDS("SpeciesStarvation_Cleaned_MA.rds")
-str(Size_data) #checking that all variable are the right type (Sex and condition are factors)
+str(Size_data) #checking that all variables are the right type (Sex and condition are factors)
 
-## Making a data frame that has mean tibia length and width for males and females of each species at high condition (fully fed) and low condition (starved for 24 or 48 hours during development, depending time of development)
-
-#list containing order of species in the data frame by phylogenetic relationship for re-ordering levels in 'species_full'
-#Closely related species are beside each other. # The phylogeny used to determine relatedness is in my main QMEE repo. File name: 
+#'SpeciesPhyOrd' orders of species in the data frame by phylogenetic relationship. To be used for re-ordering levels in 'species_full'
+#Closely related species are beside each other. # The phylogeny used to determine relatedness is in my main QMEE repo ("DmelSp_phylogeny.png")
 
 SpeciesPhyOrd <- c("D_santomea", "D_yakuba", "D_teissieri", "D_erecta", "D_simulans", "D_mauritiana", "D_sechellia", "D_melanogaster", 
                    "D_eugracilis","D_pseudotakahashii", "D_takahashii", "D_suzukii", "D_biarmipes", 
@@ -30,9 +29,8 @@ WingMean <- (Size_data
                                  m_wing_log_sqroot_area_mm_sq = mean(wing_log_sqroot_area_mm_sq))
                    %>% mutate(species_full=factor(species_full, levels = SpeciesPhyOrd)))
 
-#using TibiaMean to generate a box plot to show the distribution of leg tibia length values across the species. 
-
-# Generating a boxplot to look at the distribution of tibia length. Looking at what factors might be most affecting the spread of data
+# Generating a boxplot to look at the distribution of values for tibia length across across the sexes and condition levels. 
+# Does using untransformed vs Log2 transformed values address skewed data caused by very high values recorded for male HC and LC specimens. 
 
 TibiaL_CD_BaseBox <- (ggplot(Size_data)
                    + aes(x=condition, y=leg_tibL, color=sex))
@@ -46,11 +44,11 @@ print(TibiaL_CD_Box)
 
 TibiaLogL_CD_Box <- (TibiaLogL_CD_BaseBox
                      + geom_boxplot()
-                     + labs("Tibia length (log2 µm)"))
+                     + labs(y="Tibia length (log2 µm)"))
 print(TibiaLogL_CD_Box) 
 
-#using 'TibiaMean' to generate a line plot that shows the mean of log tibia length (in micrometers) at high condition and low condition for males and females of each species.  
-#I used the log measurements because there is such a wide range in the data. 
+#Using 'TibiaMean' to generate a line plot that shows the mean of tibia length (log2 µm) at high condition and low condition for males and females of each species.  
+# log2 transformed values were used because comparisons of the two box plots shows that log transformation if the data slightly reduces skews in the data caused by large values in males.  
 TibiaLogL_CD_BaseLine <- (ggplot(TibiaMean)
                          + aes(x=condition, y=mean_leg_log_tibL, colour = sex, group = (sex)))
 TibialogL_CD_line <- (TibiaLogL_CD_BaseLine
@@ -60,6 +58,9 @@ TibialogL_CD_line <- (TibiaLogL_CD_BaseLine
       + labs(y="Mean tibia length (log2 µm)")
       ) 
 print(TibialogL_CD_line)
+
+#Using 'WingMean' to generate a line plot that shows the mean wing area (log2 √µm) for HC and LC male and female files in each species.
+#log2 √µm values were used to standardize the wing size measurements to allow for a visual comparison between the effect of species starvation on tibia length and wing size
 
 WingLogA_CD_BaseLine <- (ggplot(WingMean)
                          + aes(x=condition, y=m_wing_log_area_mm_sq, colour = sex, group = (sex)))
