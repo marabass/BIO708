@@ -1,0 +1,19 @@
+Solution to the MMV problem 
+
+Mariam Abass 
+400262353
+
+P(have MMV) = 0.01 
+P(Does not have MMV) = 1 - P(have MMV) = 0.99
+P(Have MMV and tests positive) = 1
+P(Does not have MMV and tests positive) = 0.05
+
+P(Have MMV given a positive test) = 
+(P(have MMV) x P(Have MMV and tests positive))/
+(((P(have MMV) x P(Have MMV and tests positive)) + (P(Does not have MMV) x P(Does not have MMV and tests positive)))
+
+P(Have MMV given a positive test) = (0.01 x 1)/((0.01x1) + (0.99 x 0.05)) = 0.168
+
+The probability that the randomly tested person has MMV given a positive rapid test result is 0.168 
+
+If my friend is from the same population as the randomly selected person from the previous question, then I could conclude that the probability that they have MMV given the positive rapid test is the same (0.168). However, I do not have complete information about the prior distributions (i.e., the prior probability that my friend has MMV) and therefore cannot use Bayesian inference to calculate the probability that my friend has MMV given a positive rapid test. 
