@@ -2,14 +2,22 @@
 title: "Linear_Model_Assignment_MA"
 author: "Mariam Abass"
 date: "2024-02-14"
-output: html_document
+output:
+  html_document:
+    toc: yes
+    number_sections: yes
+    keep_md: yes
+  pdf_document:
+    toc: yes
+editor_options:
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## This script should be run from the main QMEE directory 
+#This script should be run from the main QMEE directory 
 #This script uses a data set: "SpeciesStarvation_Cleaned_MA.rds" located in the main QMEE directory
 
 Hypothesis: 
@@ -21,7 +29,6 @@ Drosophila prolongata exhibits male-biased sexual size dimorphism in foreleg siz
 ##Load in the libraries 
 ```{r}
 library(tidyverse)
-theme_set(theme_bw())
 library(emmeans)
 library(dotwhisker)
 library(performance)
@@ -39,11 +46,11 @@ lm_tibL_SD_CD <- lm(leg_tibL ~ condition * sex, data = D_SSD_Cond[D_SSD_Cond$spe
 
 ## Diagnostic plots 
 
-The only diagnostic plot that shows deviations from the assumptions of my linear model that are concerning is the plot showing homogeneity of variance. The curve in my reference line indicates that there is non-constant variance of residuals between the groups I am comparing. I suspect that the heteroscedasticity in my model may reflect the large range of observed tibia lengths that was also shown using boxplots to show the distribution of the observed values in a previous step. To address non-constant variance of the residuals, I plan to use a log2 transformation of my response variable, tibia length. 
+The only diagnostic plot that shows deviations from the assumptions of my linear model that are concerning is the plot showing homogeneity of variance. The curve in my reference line indicates that there is non-constant variance of residuals between my predictor variables. I suspect that the heteroscedasticity in my model may reflect the large range of observed tibia lengths that was also shown using boxplots showing distribution of the observed values in a previous step in my analysis. To address non-constant variance of the residuals, I plan to use a log2 transformation of my response variable, tibia length. 
  
-There appears to be deviation from the assumption of normality of residuals. The residuals seem to deviate at both tails of the normal distribution. I predict that a log2 transformation of the response variable will correct this issue. 
+There also appears to be deviation from the assumption of normality of residuals. The residuals seem to deviate at both tails of the normal distribution. I predict that a log2 transformation of the response variable will correct this issue. 
 
-Otherwise, my other diagnostic plots do not suggest that my data or residuals deviate from the assumptions of the model. The model is a reasonable fit for the data, the relationship between my response and predictor variable appears to be linear, and there seem to be no high leverage points. 
+Otherwise, my other diagnostic plots do not suggest that my data or residuals, deviate from the assumptions of the model. The model is a reasonable fit for the data, the relationship between my response and predictor variable appears to be linear, and there seem to be no high leverage points. 
 
 
 ```{r}
@@ -51,7 +58,7 @@ check_model(lm_tibL_SD_CD)
 ```
 
 ##Log2 transformation of the raw tibia length measurements to account for heteroscedasticity in my model 
- Given the heterogeneity of variance plot, it appears that the log2 transformation of tibia length slightly stabilizes the variation in my residuals. However, the transformation further violates the normality of residuals assumption. The residuals now skewed in the middle as well as at the tails of the normal distribution. I believe that the log2 transformation is a slight over-correction. To account for non-constant variance of my residuals, I would have liked to have tried plotting relative tibia length (i.e., using allometric slopes of tibia length againt thorax length (as a proxy for body size)) as a means of accounting for the large range of values in my response variable, and as a result, the heteroscedasticity of my variables. 
+ Given the heterogeneity of variance plot, it appears that the log2 transformation of tibia length slightly stabilizes the variation in my residuals across my predictors. However, the transformation further skews the normality of residuals assumption. The residuals are now skewed in the middle as well as at the tails of the normal distribution. I believe that the log2 transformation might be an over-correction. To account for non-constant variance of my residuals, I would have liked to have tried plotting relative tibia length (i.e., using alometric slopes of tibia length against thorax length (as a proxy for body size)) as a means of accounting for the large range of values in my response variable, and as a result, the heteroscedasticity of my variables. Assuming that my linear model is decently robust to non-normality of residuals, I am going to use the log2 transformed values of tibia length in my model. 
  
 ```{r}
 lm_LogtibL_SD_CD <- lm(log2(leg_tibL) ~ condition * sex, data = D_SSD_Cond[D_SSD_Cond$species_full =="D_prolongata",])
@@ -62,9 +69,11 @@ check_model(lm_LogtibL_SD_CD)
 
 I wanted to use emmeans and contrasts to examine how the extent of sexual dimorphism in tibia length (i.e., the difference in sex specific means for tibia length) changes as a function of decreased condition (or increased length of starvation during development) 
 
-My coefficient plot shows that decreasing condition (or increasing length of starvation) has small negative effect on log2 of tibia length. It was expected that starving the flies would decrease tibia length. However, this would have been a more useful analysis if I had been examining relative tibia length. I would have liked to have seen if starvation decreased tibia length relative to the entire body of the size. That is, it would have been useful to examine  trait-specific changes as a result of starvation. The coefficient plot also shows that the effect of sex on tibia length is large and positive. This is not particularly interesting given the visible dimorphism of tibia length in this species. Finally, the interaction between condition and sex is very small, negative and my confidence interval includes zero. I am not confident that the effect of condition on tibia length is different for males and females. 
+My coefficient plot shows that decreasing condition (or increasing length of starvation) has small negative effect on log2 of tibia length. It was expected that starving the flies would decrease tibia length. However, this would have been a more useful analysis if I had been examining relative tibia length. I would have liked to have seen if starvation decreased tibia length relative to the entire body of the size. That is, it would have been useful to examine  trait-specific changes as a result of starvation. 
+The coefficient plot also shows that the effect of sex on tibia length is large and positive. This is not particularly interesting given the visible dimorphism of tibia length in this species.
+Finally, the interaction between condition and sex is very small, negative and my confidence interval includes zero. I am therefore not confident that the effect of condition on tibia length is different for males and females. 
 
-My contrast plot shows that the difference between tibia length for males and females is greater at high condition vs low condition. However, because there is such a large overlap between the confidence intervals, I cannot conclude that the difference between tibia length for males and females is much different for high vs low condition individuals. This is consistent with the interpretation of the effect size of the interaction between males and females in my coefficient plot. 
+My contrast plot shows that the difference between mean tibia length between females and males is slightly greater at high condition vs low condition. However, because there is such a large overlap between the confidence intervals, I cannot conclude that the difference between tibia length for males and females is all that different for high vs low condition individuals. This is consistent with the interpretation of the effect size of the interaction between males and females in my coefficient plot. 
 
 ```{r}
 dwplot(lm_LogtibL_SD_CD)
