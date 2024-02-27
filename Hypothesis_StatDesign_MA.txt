@@ -8,9 +8,16 @@ Hypothesis:
 Exaggerated foreleg size in Drosophila prolongata is advantageous in intrasexual competition between males, meaning it is subject to sexual selection and expected to be sexually dimorphic. The expression of sexual dimorphism in Drosophila exhibits phenotypic plasticity in response to changes in environmental condition during larval development. Therefore, I hypothesize that starvation during larval development will decrease the extent of sexual size dimorphism in the forelegs of adult D. prolongata. 
 Furthermore, sexually selected traits in female Drosophila tend to exhibit stronger condition dependence. I hypothesize that the relationship between condition and sexual size dimorphism in the forelegs is weaker in D. prolongata, where males exhibit exaggerated foreleg sizes, as compared to species with female-biased size dimorphism in foreleg size.  
 
+JD: Cool hypothesis
+
 How I could test it statistically: 
 
 1. Use a generalized linear model to test for the effect of starvation (coded as the categorical predictor variable, 'condition', with levels: high condition and low condition) on the difference in sex-specific means of tibia and tarsus length and width (As a measure of sexual dimorphism in the four traits: Tibia length, tibia width, tarsus length, tarsus width) in Drosophila prolongata. To account for allometric scaling of foreleg size with body size, I could control for the effect of thorax length (as an analog for body size) on variation in tibia and tarsus length and width. I could use confidence intervals to evaluate the effect size of condition (i.e., high vs low condition) on my estimate of size dimorphism. That is, I could plot the difference in sex-specific means (as a measure of sexual dimorphism) after controlling for body size at high condition and low condition and use the condition intervals to ask if the effect between the two conditions is 'different'. 
 
 2. Compare the effect of starvation on sexual dimorphism in the forelegs of D. prolongata and D. melanogaster (Species that is assumed to have female-biased dimorphism in foreleg size). I will estimate the effect of starvation on the difference in sex-specific means for our four foreleg traits in Drosophila melanogaster. I will use confidence intervals to ask if there is a clear difference in the effect of condition on sexual dimorphism between the two species. 
 
+JD: Nice. Two points. You should be thinking about what _scale_ to use. It seems more natural here to use a log scale, since you are probably more interested in proportional differences. For example, if the tail length in starved mice is 6cm in males and 5cm in females, that's not really less dimorphism than an original value of 12 vs. 10.
+
+CIs on the effects are not an efficient way to ask if the effects are different across species. You will want to use some sort of contrast or interaction to do that directly.
+
+Grade 2.2. Thoughtful and interesting.
