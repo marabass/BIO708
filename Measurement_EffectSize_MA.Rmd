@@ -23,7 +23,7 @@ Size_data <- readRDS("SpeciesStarvation_Cleaned_MA.rds")
 ## A) 
 Theoretical context: The co-evolution of condition dependence and sexual size dimorphism 
 
-Empirical relational structure: Because I want to see how the extent of trait differences between the sexes changes in response to decreased developmental condition, I want to measure trait size for traits expected to exhibit sexual size dimorphism, and traits that are not expected to exhibit biologically relevant size dimorphism which act as our ‘control’.  We should measure trait size in males and females in good condition and in poor condition. 
+Empirical relational structure: Because I want to see how the extent of trait differences between the sexes changes in response to decreased developmental condition, I would measure trait size for those expected to exhibit sexual size dimorphism, and traits that are not expected to exhibit biologically relevant size dimorphism which act as our ‘control’. I would measure trait size in males and females in good condition and in poor condition. 
 
 Numerical relational structure: 
 The following trait measurements were taken for both sexes in the different cohort levels for all species:  tibia length and width, tarsus length and width, thorax length, and wing area. 
@@ -44,7 +44,7 @@ Meaningful inference:
 -	The decrease in tibia length after 36 hours of starvation during development appears to be more pronounced in males than in females. 
 
 ##B) 
-Given that cohort number is on the ordinal scale, meaning that the ordering of the cohorts has meaning, I can compare the change in tibia length from cohort 1 to cohort 4. Given the numbers 1 and 4 signify no starvation and 36 hours of starvation, respectively. reassigning the numbers 1 and 4, to the values high and low condition, would be a meaningful transformation. 
+Given that cohort number is on the ordinal scale, meaning that the ordering of the cohorts has meaning, I can compare the change in tibia length from cohort 1 to cohort 4. Given the numbers 1 and 4 signify no starvation and 36 hours of starvation, respectively, reassigning the numbers 1 and 4, to the values high and low condition, would be a meaningful transformation. 
 
 Given that the values of tibia length are on the ratio scale, and the distance between values is meaningful, I can interpret larger values as signifying longer tibia. I can therefore interpret smaller values for tibia length in females relative to males as males having longer tibias. I can also compare values across condition levels to comment on the change in tibia length (i.e., longer or shorter tibia). Because tibia length has a natural zero, I can log2 transform the values and comment on the proportional change of tibia length across groups (i.e., across sex or across cohort number/condition level). 
 
@@ -54,10 +54,10 @@ Given that the values of tibia length are on the ratio scale, and the distance b
 If I wanted to investigate the effect of sex and condition on tibia length in Drosophila prolongata (i.e., for a single species in my data set), I would use Hedges’ g, and the unbiased estimate, Hedges’ d. I opted for a standardized effect statistic as opposed to an unstandardized mean difference for ease of comparison to effect size in studies examining the same or similar hypotheses (Rosenberg et al., 2013). I decided to use a difference of means for my measure of effect because I am interested in quantifying the effect of an experimental treatment increased duration of starvation (i.e., high vs low condition) on my continuous response variable, tibia length (Nakagawa and Cuthill, 2007). Hedges’ g and Cohen’s d are both commonly used effect size statistic for comparison of means in evolutionary biology (Rosenberg et al., 2013).  While I believe that the decision between using Hedges’ g and Cohen’s d is mostly arbitrary given that I have approximately the same sample size per group, I chose Hedges’ g because it appears to be more commonly used (Rosenberg et al., 2013). Given that the subset of the data I am using contains ~ 80 observations and at least 30 observations per group, I am not particularity concerned with small sample sizes generating a bias in g (Nakagawa and Cuthill, 2007).  However, I am choosing to calculate Hedges’ d (i.e., the bias corrected metric), because it is the most common metric in evolutionary biology (Rosenberg et al., 2013). This is an important consideration because I am concerned with comparing my effect size with other studies looking at the effect of nutrition manipulation on sexual dimorphism.
 
 ##B) 
-Given that I am choosing Hedges’ g as my measure of effect size, I will be scaling my observations by the pooled standard deviation. Scaling my observations by the pooled standard deviation may not be ideal for my data because of the heterogeneity of  variance between my groups (i.e., Male and Female, and High and Low condition) (Nakagawa and Cuthill, 2007). However, I can also correct for the bias in my measure of effect size by using transformed data in my calculation. In a previous step I have already show that a log transformation of tibia length is able to reduces the heterogeneity of residuals. 
+Given that I am choosing Hedges’ g as my measure of effect size, I will be scaling my observations by the pooled standard deviation. Scaling my observations by the pooled standard deviation may not be ideal for my data because of the heterogeneity of  variance between my groups (i.e., Male and Female, and High and Low condition) (Nakagawa and Cuthill, 2007). However, I can attempt to correct for the bias in my measure of effect size by using transformed data in my calculation. In a previous step I have already show that a log2 transformation of tibia length reduces the heterogeneity of residuals of my responses variable. 
 
 ##C)
-Using Hedges’ d is advantageous as there is an established rule of thumb for small, medium, and large effect sizes (d = 0.2, 0.5, 0.8). A standardized benchmark for biological significance of effect sizes makes my results easy to interpret and compare between studies. However, using a rigid definition of ‘significance’ is disadvantageous because it causes researchers to fall into the same trap associated with NHST (Nakagawa and Cuthill, 2007).
+Using Hedges’ d is advantageous as there is an established rule of thumb for small, medium, and large effect sizes (d = 0.2, 0.5, 0.8). A standardized benchmark for biological significance of effect sizes makes my results easy to interpret and compare between studies. However, using a rigid definition of ‘significance’ is disadvantageous because it causes researchers to fall into the same trap associated with NHST - That is, ignoring biologically relevant interpretations of our effect sizess simply because our results already seem to adhere to our strict definition of what is and is not 'significant' (Nakagawa and Cuthill, 2007).
 
 ##D)
 The benchmarks as proposed by Cohen: d = 0.2, 0.5, 0.8 signify ‘small’, ‘medium’, ‘large’ effect. I will use these same values as a benchmark for my estimates of Hedges’ g and d. 
@@ -71,17 +71,24 @@ Given what I currently know about measuring phenotypic variation, I do not belie
 
 ##E) 
 Experiment 1: Given the small confidence interval, we can be certain that the mutant does not have a meaningful biological effect on the trait of interest 
--	Small CI implies high certainty 
+
 
 Experiment 2: Despite the confidence interval including zero, I would not conclude that the mutant has no biologically relevant effect because I cannot reject the counter-null hypothesis in this case. I would conclude that it is equally likely that the effect of the mutant is biologically relevant as it is that the effect is not biologically relevant - however, I cannot be certain of either scenario. 
--	Counter null hypothesis: A value equal to twice the observed difference 
+
 
 Experiment 3: I can be fairly certain that the effect of the mutant of the trait of interest of meaningful biological relevance. 
 
 Experiment 4: Despite the confidence interval including values that are definitely of practical relevance, because it extends into the grey area, I am hesitant to conclude that the effect of the mutant is definitely of practical relevance. I can conclude with low certainty that the mutant has an effect on the trait of interest that is of meaningful biological relevance. 
 
-Experiment 5: Despite the confidence interval extending into both regions of practical relevance and unlikely to be of practical relevance, I am very uncertain that the effect of the mutant is consistent with either conclusion. I cannot make any conclusions about the effect of the mutant of trait of interest. 
+Experiment 5: Despite the confidence interval extending into both regions of practical relevance and unlikely to be of practical relevance, I am very uncertain that the effect of the mutant is consistent with either conclusion. I cannot make any conclusions about the effect of the mutant on the trait of interest. 
 
-Experiment 6: Despite including values that are judged to be not of practical relevance, the confidence interval also extends into the grey area, so I cannot included with certainty that the effect of the mutant on the trait is not biologically relevant. 
+Experiment 6: Despite including values that are judged to be not of biological relevance, the confidence interval also extends into the grey area, so I cannot included with certainty that the effect of the mutant on the trait is not biologically relevant. I am not certain that the effect of the mutant on the trait is not biolgically relevant. 
 
-Experiment 7: I can be fairly certain that the effect of he mutant on the trait of interest is not biologically relevant. 
+Experiment 7: I can be fairly certain that the effect of the mutant on the trait of interest is not biologically relevant.
+
+
+References
+
+Koricheva, J., Gurevitch, J., & Mengersen, K. (2013). Handbook of meta-analysis in ecology and evolution. Princeton University Press.
+
+Nakagawa, S., & Cuthill, I. C. (2007). Effect size, confidence interval and statistical significance: a practical guide for biologists. Biological Reviews, 82(4), 591–605. https://doi.org/10.1111/j.1469-185x.2007.00027.x
