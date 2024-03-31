@@ -1,8 +1,7 @@
 #This script should be run from the main QMEE directory
+#This script uses the data set 'SpeciesStarvation_Cleaned_MA.rds' located in my main QMEE directory 
 
 #loading libraries 
-library(ggplot2); theme_set(theme_bw())
-library(DHARMa)
 library(dotwhisker)
 library(emmeans)
 
@@ -11,28 +10,26 @@ D_SSD_Cond <- readRDS("SpeciesStarvation_Cleaned_MA.rds")
 
 #extracting D pro data 
 Dpro_size <- D_SSD_Cond[D_SSD_Cond$species_full =="D_prolongata",]
-                        
-#I am modelling the effect of thorax length (a continuous predictor) on tibia length: thorax_length_mm ~ leg_tibL
-#I am using family=gaussian because 
-#I am converting milimeters to micrometers, then performing a log2 transformation of my continuous response and predictor
-#I am using a standard Log link function as per the assumption that my data is normally distributed. 
-#The log link function performs a log transformation of my predictor
 
-glm1 <- glm(log2(1000 * Dpro_size$leg_tibL) ~ log2(1000 * thorax_length_mm) + sex, data = Dpro_size, family = gaussian(link="log"))
+#hypothesis: 1. larger flies will have longer forelegs. 2. Body size is a greater determinant of foreleg length than sex. 
+#I am modelling the effect of thorax length and sex on tibia length
+#I am using a Log link function as per the assumption that the relationship between thorax length, sex, and tibia length follows a gaussian distribution
+#I am converting the units of my continuous variable from millimeters to micrometers, then performing a log2 transformation of my continuous response and predictor variables
+#The log2 transformation is to help frame comparisons between thorax and tibia length in terms of size doubling. 
 
-glm1_plot <- (ggplot(Dpro_size,aes(log2(1000 * thorax_length_mm),log2(1000 * Dpro_size$leg_tibL), group = sex, colour = sex)) +
-  geom_point() + 
-  geom_smooth(method="glm",colour="red",
-                         formula=y~x,
-                         method.args=list(family="gaussian")))
-print(glm1_plot)
+glm1 <- glm(log2(1000 * leg_tibL) ~ log2(1000 * thorax_length_mm) + sex, data = Dpro_size, family = gaussian(link="log"))
+
 #diagnostics 
 plot(glm1)
 
-plot(simulateResiduals(glm1))
+##Discussion of diagnostic plots
+#None of my diagnostic plots would suggest that the model is a poor fit for my data. The QQ plot show that there is a positive skew in my residuals.  
+#However, I am going to assume that my model is robust to deviations from normality. 
 
-#coefficient plot 
+#inferential plots 
 summary(glm1)
 dwplot(glm1)
-plot(emmeans(glm1, specs = "sex", type = "response"))
+#The effect of thorax length of tibia length is positive and the confidence interval does not include zero. This indicates that larger flies have larger forelegs. 
+#The effect of sex on tibia length is positive, indicating that males have larger tibias than females. 
+#The effect of sex on tibia length is smaller than the effect of thorax length. However, the confidence intervals of both predictors almost entirely overlap. I cannot be sure that the difference between the effects of thorax length and sex on tibia length is biologically relevant. 
 
