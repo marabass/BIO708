@@ -35,11 +35,17 @@ model1 <- function() {
     sigma <-  1/tau
   }
 
+## BMB: this is reasonable -- it's the analogue of a t-test.
 #Discussion of prior assumptions: 
 #Treatment contrasts: 
 #beta prior is normally distributed, ranging between 0 and 0.01 - 
 #Difference of 0.01 cm between males and female tibia length is probably a reasonable prior estimate given what I know about variation in tibia length in Drosophila
-#variation: Setting to a gamma distribution with a relatively small range. Not expecting much variation in tibia length, but assuming it will be positive. 
+##variation: Setting to a gamma distribution with a relatively small range. Not expecting much variation in tibia length, but assuming it will be positive.
+## BMB: this is actually a very WEAK prior
+## see https://journal.r-project.org/archive/2013/RJ-2013-020/RJ-2013-020.pdf
+## set.seed(101); r <- 1e-10 + rgamma(1e6, shape = 1e-4, rate = 1e-4); c(mean(r), sd(r))
+## gives a mean of 1 and a SD of 100 (!!)
+set.seed(101); range(rgamma(100, shape = 1e-4, rate = 1e-4))
 j1 <- jags(data=Dpro_dat1,
            inits=NULL,
            parameters=c("b", "sigma"),
@@ -54,7 +60,8 @@ dwplot(J1_CIs, by_2sd = TRUE) +
 model_lm <- lm(leg_tibL ~ sex, data = D_proDF)
 summary(model_lm)
 lm1_CIs <- tidy(model_lm, conf.int=TRUE, conf.method="quantile")
-dwplot(lm1_CIs, by_2sd = TRUE) +
+## BMB: add intercept for comparability
+dwplot(lm1_CIs, by_2sd = TRUE, show_intercept = TRUE) +
   geom_vline(xintercept = 0, lty = 2)
 
 #Estimated change in mean tibia length between male and females in both the frequentist and bayesian models. 
@@ -62,4 +69,6 @@ dwplot(lm1_CIs, by_2sd = TRUE) +
 #b2 lower credible interval is slightly underestimated relative to the frequentist model.
 #CIs in neither model are close to zero. 
 #Both models suggest a positive effect of sex on tibia length. 
+
+## BMB: OK, mark 2
 
